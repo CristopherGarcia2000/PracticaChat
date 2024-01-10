@@ -11,16 +11,10 @@ public class Client {
 
     public static void main(String[] args) throws Exception {
 
-        int userOption = 0;
         final Scanner SCANNER = new Scanner(System.in);
-
-        System.out.println("¿Cómo te llamas?");
-        String username = SCANNER.nextLine();
 
         Socket socket = new Socket("localhost", 55000);
         ObjectOutputStream objOutStream = new ObjectOutputStream(socket.getOutputStream());
-
-        objOutStream.writeUTF(username);
 
         String message = "";
 

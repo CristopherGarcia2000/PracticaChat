@@ -1,6 +1,8 @@
 package net.salesianos.models;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private String name;
     private String message;
 
@@ -10,5 +12,13 @@ public class User {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }

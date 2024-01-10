@@ -1,5 +1,8 @@
 package net.salesianos.server;
 
+import net.salesianos.server.threads.ClientHandler;
+
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -17,6 +20,10 @@ public class Server {
 
             ObjectOutputStream clientObjOutStream = new ObjectOutputStream(clientSocket.getOutputStream());
             connectedObjOutputStream.add(clientObjOutStream);
+
+            ObjectInputStream clientObjInStream = new ObjectInputStream(clientSocket.getInputStream());
+            ClientHandler clientHandler = new ClientHandler(clientObjInStream, clientObjOutStream, connectedObjOutputStream);
+            clientHandler.start();
         }
 
     }
