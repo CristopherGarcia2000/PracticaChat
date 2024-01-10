@@ -24,8 +24,9 @@ public class ClientHandler extends Thread{
     public void run() {
 
         try {
-            User userReceived = (User) this.clientObjInStream.readObject();
+            User userReceived = null;
             while (true) {
+                userReceived = (User) this.clientObjInStream.readObject();
                 System.out.println(userReceived.getName() + " envía: " + userReceived.getMessage());
                 for (ObjectOutputStream otherObjOutputStream : connectedObjOutputStreamList) {
                     if (otherObjOutputStream != this.clientObjOutStream) {
@@ -33,6 +34,7 @@ public class ClientHandler extends Thread{
                     }
                 }
             }
+
 
         } catch (EOFException eofException) {
             this.connectedObjOutputStreamList.remove(this.clientObjOutStream);
