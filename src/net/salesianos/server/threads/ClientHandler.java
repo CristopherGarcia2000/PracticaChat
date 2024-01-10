@@ -1,5 +1,6 @@
 package net.salesianos.server.threads;
 
+import net.salesianos.models.Chat;
 import net.salesianos.models.User;
 
 import java.io.EOFException;
@@ -12,6 +13,7 @@ public class ClientHandler extends Thread{
     private ObjectInputStream clientObjInStream;
     private ObjectOutputStream clientObjOutStream;
     private ArrayList<ObjectOutputStream> connectedObjOutputStreamList;
+    private Chat chat = new Chat();
 
     public ClientHandler(ObjectInputStream clientObjInStream, ObjectOutputStream clientObjOutStream,
                          ArrayList<ObjectOutputStream> connectedObjOutputStreamList) {
@@ -28,6 +30,7 @@ public class ClientHandler extends Thread{
             while (true) {
                 userReceived = (User) this.clientObjInStream.readObject();
                 System.out.println(userReceived.getName() + " envía: " + userReceived.getMessage());
+                chat.addMessages(userReceived.getMessage());
                 for (ObjectOutputStream otherObjOutputStream : connectedObjOutputStreamList) {
                     if (otherObjOutputStream != this.clientObjOutStream) {
                         otherObjOutputStream.writeObject(userReceived);

@@ -18,7 +18,8 @@ public class ServerListener extends Thread {
         try {
             while (true) {
                 User newServerPerson = (User) this.objInStream.readObject();
-                System.out.println("El servidor registró a una nueva persona: " + newServerPerson.getName());
+                System.out.println("\n" + newServerPerson.getName() + ": " + newServerPerson.getMessage());
+
             }
         } catch (ClassNotFoundException e1) {
             System.out.println("No se ha encontrado la clase Person");

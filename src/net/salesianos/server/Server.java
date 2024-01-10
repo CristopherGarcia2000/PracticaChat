@@ -1,5 +1,6 @@
 package net.salesianos.server;
 
+import net.salesianos.models.Chat;
 import net.salesianos.server.threads.ClientHandler;
 
 import java.io.ObjectInputStream;
@@ -12,6 +13,7 @@ public class Server {
     public static void main(String[] args) throws Exception {
         ServerSocket serverSocket = new ServerSocket(55000);
         ArrayList<ObjectOutputStream> connectedObjOutputStream = new ArrayList<>();
+
 
         while (true) {
             System.out.println("Esperando conexión...");
