@@ -7,19 +7,23 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ClientHandler extends Thread{
     private ObjectInputStream clientObjInStream;
     private ObjectOutputStream clientObjOutStream;
     private ArrayList<ObjectOutputStream> connectedObjOutputStreamList;
-    private Chat chat = new Chat();
+    private Chat chat;
 
     public ClientHandler(ObjectInputStream clientObjInStream, ObjectOutputStream clientObjOutStream,
-                         ArrayList<ObjectOutputStream> connectedObjOutputStreamList) {
+                         ArrayList<ObjectOutputStream> connectedObjOutputStreamList, Chat chat) {
         this.clientObjInStream = clientObjInStream;
         this.clientObjOutStream = clientObjOutStream;
         this.connectedObjOutputStreamList = connectedObjOutputStreamList;
+        this.chat = chat;
     }
 
     @Override
@@ -27,13 +31,25 @@ public class ClientHandler extends Thread{
 
         try {
             User userReceived = null;
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+            Date date = new Date();
+
+            chat.showAllMessages(clientObjOutStream);
+
+
+
+
+
             while (true) {
                 userReceived = (User) this.clientObjInStream.readObject();
-                System.out.println(userReceived.getName() + " envía: " + userReceived.getMessage());
-                chat.addMessages(userReceived.getMessage());
+                String message = dateFormat.format(date) + " " + userReceived.getName() + ": " + userReceived.getMessage();
+                chat.addMessages(message);
+                System.out.println(message);
+
+
                 for (ObjectOutputStream otherObjOutputStream : connectedObjOutputStreamList) {
                     if (otherObjOutputStream != this.clientObjOutStream) {
-                        otherObjOutputStream.writeObject(userReceived);
+                        otherObjOutputStream.writeObject(message);
                     }
                 }
             }

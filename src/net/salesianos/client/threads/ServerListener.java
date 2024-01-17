@@ -2,6 +2,7 @@ package net.salesianos.client.threads;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.Arrays;
 
 import net.salesianos.models.User;
 
@@ -17,13 +18,15 @@ public class ServerListener extends Thread {
     public void run() {
         try {
             while (true) {
-                User newServerPerson = (User) this.objInStream.readObject();
-                System.out.println("\n" + newServerPerson.getName() + ": " + newServerPerson.getMessage());
+                //User newServerPerson = (User) this.objInStream.readObject();
+
+                String message = (String) this.objInStream.readObject();
+                System.out.println(message);
+
+                //System.out.println(newServerPerson.getName() + ": " + newServerPerson.getMessage());
 
             }
-        } catch (ClassNotFoundException e1) {
-            System.out.println("No se ha encontrado la clase Person");
-        } catch (IOException e2) {
+        } catch (IOException | ClassNotFoundException e2) {
             System.out.println("Se ha dejado de escuchar los envíos del servidor.");
         }
     }

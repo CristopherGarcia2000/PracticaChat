@@ -13,6 +13,7 @@ public class Server {
     public static void main(String[] args) throws Exception {
         ServerSocket serverSocket = new ServerSocket(55000);
         ArrayList<ObjectOutputStream> connectedObjOutputStream = new ArrayList<>();
+        Chat chat = new Chat();
 
 
         while (true) {
@@ -20,12 +21,15 @@ public class Server {
             Socket clientSocket = serverSocket.accept();
             System.out.println("CONEXION ESTABLECIDA");
 
+
             ObjectOutputStream clientObjOutStream = new ObjectOutputStream(clientSocket.getOutputStream());
             connectedObjOutputStream.add(clientObjOutStream);
 
             ObjectInputStream clientObjInStream = new ObjectInputStream(clientSocket.getInputStream());
-            ClientHandler clientHandler = new ClientHandler(clientObjInStream, clientObjOutStream, connectedObjOutputStream);
+            ClientHandler clientHandler = new ClientHandler(clientObjInStream, clientObjOutStream, connectedObjOutputStream, chat);
             clientHandler.start();
+
+
         }
 
     }
