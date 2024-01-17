@@ -17,14 +17,10 @@ public class ServerListener extends Thread {
     @Override
     public void run() {
         try {
-            while (true) {
-                //User newServerPerson = (User) this.objInStream.readObject();
-
-                String message = (String) this.objInStream.readObject();
+            String message ="";
+            while (!message.equals("Adiós usuario")) {
+                message = (String) this.objInStream.readObject();
                 System.out.println(message);
-
-                //System.out.println(newServerPerson.getName() + ": " + newServerPerson.getMessage());
-
             }
         } catch (IOException | ClassNotFoundException e2) {
             System.out.println("Se ha dejado de escuchar los envíos del servidor.");

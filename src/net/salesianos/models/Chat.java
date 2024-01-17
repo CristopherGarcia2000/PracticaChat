@@ -22,8 +22,6 @@ public class Chat {
                     throw new RuntimeException(e);
                 }
             });
-        } else {
-            System.out.println("No hay mensajes.");
         }
     }
 }

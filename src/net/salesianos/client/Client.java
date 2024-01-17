@@ -25,6 +25,8 @@ public class Client {
 
         System.out.print("Introduzca nombre: ");
         user.setName(SCANNER.nextLine());
+        objOutStream.writeObject(user);
+        objOutStream.reset();
 
         ObjectInputStream objInStream = new ObjectInputStream(socket.getInputStream());
         ServerListener serverListener = new ServerListener(objInStream);
@@ -38,6 +40,7 @@ public class Client {
             objOutStream.reset();
         }
 
+        serverListener.join();
         SCANNER.close();
         objOutStream.close();
         socket.close();
